@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Playground</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="overflow-hidden">
+
+    <div id="app-container" class="relative h-screen w-screen flex flex-col transition-all duration-300">
+
+        <header class="p-4 flex items-center justify-between z-20 shrink-0 border-b border-[var(--border-color)]">
+             <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-gradient-to-br from-[#7b61ff] to-[#9c88ff] rounded-lg flex items-center justify-center shadow-inner">
+                   <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold text-[var(--text-color)]">Nova</h1>
+                    <p id="model-display" class="text-xs font-medium text-[var(--text-muted-color)]">Gemini 2.5 Flash</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="new-chat-button" class="p-2 rounded-full hover:bg-[var(--surface-color)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--bg-color)] focus:ring-[var(--primary-color)] transition-colors">
+                     <svg class="w-5 h-5 text-[var(--text-color)]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                </button>
+                <button id="menu-button" class="p-2 rounded-full hover:bg-[var(--surface-color)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--bg-color)] focus:ring-[var(--primary-color)] transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[var(--text-color)]"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <main id="chat-area" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
+            <div id="welcome-screen" class="h-full flex flex-col items-center justify-center text-center">
+                 <div class="w-20 h-20 bg-gradient-to-br from-[#7b61ff] to-[#9c88ff] rounded-3xl flex items-center justify-center mb-6 shadow-2xl shadow-purple-500/20">
+                   <svg class="w-12 h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                </div>
+                <h2 class="text-2xl font-bold text-[var(--text-color)]">How can I help you today?</h2>
+                <div class="grid grid-cols-2 gap-3 mt-8 w-full max-w-md">
+                    <button class="example-prompt text-left p-3 bg-[var(--surface-color)] rounded-xl hover:bg-[var(--surface-light-color)] transition-colors text-sm">
+                        <p class="font-semibold">Explain quantum computing</p>
+                        <p class="text-[var(--text-muted-color)] text-xs">in simple terms</p>
+                    </button>
+                    <button class="example-prompt text-left p-3 bg-[var(--surface-color)] rounded-xl hover:bg-[var(--surface-light-color)] transition-colors text-sm">
+                         <p class="font-semibold">Write a python script</p>
+                         <p class="text-[var(--text-muted-color)] text-xs">to sort a list of files</p>
+                    </button>
+                     <button class="example-prompt text-left p-3 bg-[var(--surface-color)] rounded-xl hover:bg-[var(--surface-light-color)] transition-colors text-sm">
+                         <p class="font-semibold">Brainstorm creative names</p>
+                         <p class="text-[var(--text-muted-color)] text-xs">for my new coffee shop</p>
+                    </button>
+                     <button class="example-prompt text-left p-3 bg-[var(--surface-color)] rounded-xl hover:bg-[var(--surface-light-color)] transition-colors text-sm">
+                         <p class="font-semibold">Tell me a fun fact</p>
+                         <p class="text-[var(--text-muted-color)] text-xs">about the Roman Empire</p>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="p-4 z-20 shrink-0 bg-[var(--bg-color)]">
+            <div class="max-w-4xl mx-auto">
+                <form id="chat-form" class="relative">
+                     <textarea id="message-input" placeholder="Ask Nova" rows="1" class="w-full p-3 pr-14 bg-[var(--surface-color)] border-2 border-transparent rounded-xl resize-none focus:outline-none transition-all duration-300" style="min-height: 52px;"></textarea>
+                    <button type="submit" id="send-button" class="absolute right-2.5 top-2.5 p-2 w-9 h-9 bg-gradient-to-br from-[#7b61ff] to-[#9c88ff] text-white rounded-lg hover:shadow-lg hover:shadow-purple-500/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--surface-color)] focus:ring-[var(--primary-color)] transition-all duration-200 transform active:scale-95 disabled:opacity-50 disabled:scale-100 disabled:cursor-not-allowed disabled:shadow-none flex items-center justify-center shrink-0">
+                       <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" fill="white"/></svg>
+                    </button>
+                </form>
+                <p class="text-xs text-center text-[var(--text-muted-color)] mt-3 px-2">
+                    Disclaimer: This is a third-party application and is not affiliated with, endorsed, or sponsored by Google.
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <div id="bottom-sheet-container" class="fixed inset-0 z-50 hidden">
+        <div id="bottom-sheet-overlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div id="bottom-sheet" class="relative h-[90vh] w-full bg-[var(--bg-color)] rounded-t-3xl shadow-2xl flex flex-col sheet-closed mt-auto border-t border-[var(--border-color)]">
+            <div class="p-4 flex justify-center items-center shrink-0 relative">
+                <div class="w-10 h-1.5 bg-[var(--border-color)] rounded-full"></div>
+                <button id="close-menu-button" class="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-[var(--surface-color)]">
+                    <svg class="w-6 h-6 text-[var(--text-muted-color)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-4 pt-0 space-y-6">
+
+                 <div class="space-y-2">
+                     <h3 class="text-sm font-semibold text-[var(--text-muted-color)] px-2">Recents</h3>
+                     <div id="recent-chats-list" class="space-y-2 max-h-48 overflow-y-auto">
+                        </div>
+                </div>
+
+                <div class="space-y-2">
+                     <h3 class="text-sm font-semibold text-[var(--text-muted-color)] px-2">Theme</h3>
+                     <div class="flex space-x-2 bg-[var(--surface-color)] p-1.5 rounded-xl">
+                        <button class="theme-btn flex-1 p-2 rounded-lg text-sm font-semibold transition-all" data-theme="dark">Dark</button>
+                        <button class="theme-btn flex-1 p-2 rounded-lg text-sm font-semibold transition-all" data-theme="light">Light</button>
+                     </div>
+                </div>
+
+                <div class="p-3 bg-[var(--surface-color)] rounded-xl space-y-4">
+                    <h3 class="font-semibold text-sm text-[var(--text-muted-color)] px-1">Options</h3>
+                    <div class="flex items-center justify-between">
+                        <label class="text-sm">AI Model</label>
+                        <button id="model-picker-btn" class="p-1 px-2 text-sm bg-transparent border border-[var(--border-color)] rounded-md hover:bg-[var(--surface-light-color)] focus:outline-none focus:ring-1 focus:ring-[var(--primary-color)] transition-colors">
+                           <span id="model-select-display">Gemini 2.5 Flash</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-[var(--surface-color)] rounded-xl space-y-2">
+                     <h3 class="font-semibold text-sm text-[var(--text-muted-color)] px-1">Manage</h3>
+                     <button id="api-key-btn" class="w-full text-left p-2.5 bg-[var(--surface-light-color)] hover:bg-[var(--surface-light-color)]/80 rounded-lg text-sm transition-colors flex items-center justify-between"><span>Set API Key</span><span id="api-key-status" class="text-xs">Set</span></button>
+                     <button id="custom-prompt-btn" class="w-full text-left p-2.5 bg-[var(--surface-light-color)] hover:bg-[var(--surface-light-color)]/80 rounded-lg text-sm transition-colors">Set System Prompt</button>
+                     <button id="about-btn" class="w-full text-left p-2.5 bg-[var(--surface-light-color)] hover:bg-[var(--surface-light-color)]/80 rounded-lg text-sm transition-colors">About Nova</button>
+                </div>
+             </div>
+             <div class="p-4 border-t border-[var(--border-color)] shrink-0">
+                <button id="clear-all-chats-btn" class="w-full text-center p-3 bg-red-600/10 hover:bg-red-600/20 rounded-xl text-sm font-semibold text-red-500 transition-colors">Clear All Chats</button>
+             </div>
+        </div>
+    </div>
+
+    <div id="modal-container" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+        <div class="modal-content-wrapper w-full max-w-md m-4 transition-all duration-300 transform scale-95 opacity-0">
+            
+            <div id="api-key-modal" class="modal-content hidden bg-[var(--surface-color)] rounded-2xl shadow-xl p-6 border border-[var(--border-color)]">
+                <h2 class="text-xl font-bold mb-4">Enter API Key</h2>
+                <p class="text-sm text-[var(--text-muted-color)] mb-4">Get your free API key from Google AI Studio.</p>
+                <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-[var(--primary-color)] hover:underline text-sm inline-block mb-4">Get API Key &rarr;</a>
+                <input id="api-key-input" type="password" placeholder="Enter API key" class="w-full p-2.5 bg-[var(--bg-color)] border border-[var(--border-color)] rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]">
+                <div class="flex justify-end space-x-2">
+                    <button class="modal-close-btn p-2 px-4 rounded-lg text-sm hover:bg-[var(--surface-light-color)] font-semibold">Cancel</button>
+                    <button id="save-api-key-btn" class="p-2 px-4 rounded-lg text-sm bg-[var(--primary-color)] text-white hover:bg-[var(--primary-light-color)] font-semibold">Save</button>
+                </div>
+            </div>
+
+            <div id="custom-prompt-modal" class="modal-content hidden bg-[var(--surface-color)] rounded-2xl shadow-xl p-6 border border-[var(--border-color)]">
+                <h2 class="text-xl font-bold mb-4">Set System Prompt</h2>
+                <p class="text-sm text-[var(--text-muted-color)] mb-4">Define the AI's persona. Leave blank for default behavior.</p>
+                <textarea id="custom-prompt-input" rows="5" class="w-full p-2.5 bg-[var(--bg-color)] border border-[var(--border-color)] rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] resize-none" placeholder="e.g., You are a helpful assistant that speaks like a pirate."></textarea>
+                <div class="flex justify-end space-x-2">
+                    <button class="modal-close-btn p-2 px-4 rounded-lg text-sm hover:bg-[var(--surface-light-color)] font-semibold">Cancel</button>
+                    <button id="save-custom-prompt-btn" class="p-2 px-4 rounded-lg text-sm bg-[var(--primary-color)] text-white hover:bg-[var(--primary-light-color)] font-semibold">Save</button>
+                </div>
+            </div>
+
+            <div id="model-picker-modal" class="modal-content hidden bg-[var(--surface-color)] rounded-2xl shadow-xl p-6 border border-[var(--border-color)]">
+                <h2 class="text-xl font-bold mb-4">Select AI Model</h2>
+                <p class="text-sm text-[var(--text-muted-color)] mb-4">Choose the model that best suits your needs.</p>
+                <div id="model-options-list" class="space-y-2">
+                    <button class="model-option w-full text-left p-3 rounded-lg text-sm transition-all border border-[var(--border-color)] hover:bg-[var(--surface-light-color)]" data-model="gemini-2.5-pro" data-name="Gemini 2.5 Pro">
+                        <span class="font-semibold">Gemini 2.5 Pro</span>
+                        <p class="text-xs text-[var(--text-muted-color)]">Best for complex reasoning, coding, and creative tasks.</p>
+                    </button>
+                    <button class="model-option w-full text-left p-3 rounded-lg text-sm transition-all border border-[var(--border-color)] hover:bg-[var(--surface-light-color)]" data-model="gemini-2.5-flash" data-name="Gemini 2.5 Flash">
+                        <span class="font-semibold">Gemini 2.5 Flash</span>
+                        <p class="text-xs text-[var(--text-muted-color)]">Optimized for speed, efficiency, and chat applications.</p>
+                    </button>
+                    <button class="model-option w-full text-left p-3 rounded-lg text-sm transition-all border border-[var(--border-color)] hover:bg-[var(--surface-light-color)]" data-model="gemini-2.0-flash-lite" data-name="Gemini 2.0 Flash Lite">
+                        <span class="font-semibold">Gemini 2.0 Flash Lite</span>
+                        <p class="text-xs text-[var(--text-muted-color)]">Lightweight and fast for simple, quick tasks.</p>
+                    </button>
+                </div>
+                <div class="flex justify-end space-x-2 mt-6">
+                    <button class="modal-close-btn p-2 px-4 rounded-lg text-sm hover:bg-[var(--surface-light-color)] font-semibold">Done</button>
+                </div>
+            </div>
+
+            <div id="about-modal" class="modal-content hidden bg-[var(--surface-color)] rounded-2xl shadow-xl p-6 border border-[var(--border-color)]">
+                <h2 class="text-xl font-bold mb-4">About</h2>
+                <div class="space-y-2 mb-4">
+                    <p class="text-sm"><span class="font-semibold text-[var(--primary-color)]">Version:</span>v1.0.0</p>
+                    <p class="text-sm"><span class="font-semibold text-[var(--primary-color)]">Core:</span>Gemini</p>
+                    <p class="text-xs text-[var(--text-muted-color)]">A third-party interface for the Google Gemini API.</p>
+                </div>
+                <button id="changelog-btn" class="w-full text-left p-2.5 bg-[var(--surface-light-color)] hover:bg-[var(--surface-light-color)]/80 rounded-lg text-sm font-semibold transition-colors">Show Changelog</button>
+                <div id="changelog-content" class="mt-4 p-3 bg-[var(--bg-color)] rounded-lg text-xs hidden max-h-40 overflow-y-auto border border-[var(--border-color)]">
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><span class="font-semibold">2025-10-31 (v1.0.1):</span> Replaced model selector with a custom picker.</li>
+                       
+                    </ul>
+                </div>
+                <div class="flex justify-end space-x-2 mt-6">
+                    <button class="modal-close-btn p-2 px-4 rounded-lg text-sm hover:bg-[var(--surface-light-color)] font-semibold">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

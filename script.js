@@ -276,7 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
             bottomSheet.classList.remove('sheet-open');
             setTimeout(() => {
                 bottomSheetContainer.classList.add('hidden');
-                 // FIX: Reset body overflow when closing the menu
                  document.body.style.overflow = '';
             }, 350);
         }
@@ -405,8 +404,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-This is the full code for `script.js`
-
     chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
         handleUserMessage(messageInput.value);
@@ -499,4 +496,5 @@ This is the full code for `script.js`
 
     init();
 });
+
 

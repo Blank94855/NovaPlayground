@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             item.innerHTML = `<p class="text-sm truncate pr-2">${chat.title}</p>
             <button class="delete-chat-btn hidden group-hover:inline-block p-1 rounded-md hover:bg-red-500/20">
-                <svg class="w-4 h-4 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
+                <svg class="w-4 h-4 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002 2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
             </button>`;
 
             item.addEventListener('click', (e) => {
@@ -276,7 +276,8 @@ document.addEventListener('DOMContentLoaded', () => {
             bottomSheet.classList.remove('sheet-open');
             setTimeout(() => {
                 bottomSheetContainer.classList.add('hidden');
-                 document.body.style.overflow = 'hidden';
+                 // FIX: Reset body overflow when closing the menu
+                 document.body.style.overflow = '';
             }, 350);
         }
     };
@@ -404,6 +405,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+This is the full code for `script.js`
+
     chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
         handleUserMessage(messageInput.value);
@@ -496,3 +499,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     init();
 });
+
